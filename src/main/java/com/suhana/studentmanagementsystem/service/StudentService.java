@@ -24,6 +24,10 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    public List<Student> getStudentsByDepartment(Long departmentId) {
+        return studentRepository.findByDepartmentId(departmentId);
+    }
+
     public Student getStudentById(Long id) {
         return studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
