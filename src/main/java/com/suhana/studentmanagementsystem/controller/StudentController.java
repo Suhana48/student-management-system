@@ -21,7 +21,13 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    // Get students belonging to a specific department
+    @GetMapping("/search")
+    public List<Student> searchStudentsByName(
+            @RequestParam String name) {
+
+        return studentService.searchStudentsByName(name);
+    }
+
     @GetMapping("/department/{departmentId}")
     public List<Student> getStudentsByDepartment(
             @PathVariable Long departmentId) {

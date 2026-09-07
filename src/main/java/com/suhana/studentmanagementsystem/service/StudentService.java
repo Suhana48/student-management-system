@@ -28,6 +28,10 @@ public class StudentService {
         return studentRepository.findByDepartmentId(departmentId);
     }
 
+    public List<Student> searchStudentsByName(String name) {
+        return studentRepository.findByNameContainingIgnoreCase(name);
+    }
+
     public Student getStudentById(Long id) {
         return studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
