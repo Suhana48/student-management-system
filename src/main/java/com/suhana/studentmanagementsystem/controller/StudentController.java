@@ -35,6 +35,13 @@ public class StudentController {
         return studentService.getStudentsByDepartment(departmentId);
     }
 
+    @GetMapping("/low-attendance")
+    public List<Student> getLowAttendanceStudents(
+            @RequestParam Double threshold) {
+
+        return studentService.getLowAttendanceStudents(threshold);
+    }
+
     @GetMapping("/{id}")
     public Student getStudentById(@PathVariable Long id) {
         return studentService.getStudentById(id);

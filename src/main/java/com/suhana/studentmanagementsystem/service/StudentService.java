@@ -32,6 +32,10 @@ public class StudentService {
         return studentRepository.findByNameContainingIgnoreCase(name);
     }
 
+    public List<Student> getLowAttendanceStudents(Double threshold) {
+        return studentRepository.findByAttendanceLessThan(threshold);
+    }
+
     public Student getStudentById(Long id) {
         return studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
