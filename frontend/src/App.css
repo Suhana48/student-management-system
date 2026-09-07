@@ -183,3 +183,30 @@
   background-color: #3a3f4b;
   color: white;
 }
+.delete-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #dc2626;
+  color: white;
+  font-weight: 600;
+}
+
+.delete-btn:hover {
+  opacity: 0.85;
+}
+.edit-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-right: 8px;
+  cursor: pointer;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+}
+
+.edit-btn:hover {
+  opacity: 0.85;
+}

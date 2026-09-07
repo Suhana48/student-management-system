@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react";
-import { getAllStudents, createStudent } from "../api/studentApi";
+import {
+  getAllStudents,
+  createStudent,
+  updateStudent,
+  deleteStudent,
+} from "../api/studentApi";
 
 function Students() {
   const [students, setStudents] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [editingStudentId, setEditingStudentId] = useState(null);
 
-  const [studentData, setStudentData] = useState({
+  const initialStudentData = {
     name: "",
     email: "",
     phone: "",
     year: "",
     cgpa: "",
     attendance: "",
-    departmentId: ""
-  });
+    departmentId: "",
+  };
+
+  const [studentData, setStudentData] = useState(initialStudentData);
 
   const fetchStudents = () => {
     getAllStudents()
@@ -34,8 +42,30 @@ function Students() {
 
     setStudentData({
       ...studentData,
-      [name]: value
+      [name]: value,
     });
+  };
+
+  const handleAddStudent = () => {
+    setEditingStudentId(null);
+    setStudentData(initialStudentData);
+    setShowForm(true);
+  };
+
+  const handleEdit = (student) => {
+    setEditingStudentId(student.id);
+
+    setStudentData({
+      name: student.name,
+      email: student.email,
+      phone: student.phone,
+      year: student.year,
+      cgpa: student.cgpa,
+      attendance: student.attendance,
+      departmentId: student.department?.id || "",
+    });
+
+    setShowForm(true);
   };
 
   const handleSubmit = (event) => {
@@ -43,25 +73,44 @@ function Students() {
 
     const { departmentId, ...student } = studentData;
 
-    createStudent(student, departmentId)
+    const request = editingStudentId
+      ? updateStudent(editingStudentId, student, departmentId)
+      : createStudent(student, departmentId);
+
+    request
       .then(() => {
         fetchStudents();
-
-        setStudentData({
-          name: "",
-          email: "",
-          phone: "",
-          year: "",
-          cgpa: "",
-          attendance: "",
-          departmentId: ""
-        });
-
+        setStudentData(initialStudentData);
+        setEditingStudentId(null);
         setShowForm(false);
       })
       .catch((error) => {
-        console.error("Error adding student:", error);
+        console.error("Error saving student:", error);
       });
+  };
+
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this student?"
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    deleteStudent(id)
+      .then(() => {
+        fetchStudents();
+      })
+      .catch((error) => {
+        console.error("Error deleting student:", error);
+      });
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setEditingStudentId(null);
+    setStudentData(initialStudentData);
   };
 
   return (
@@ -74,7 +123,7 @@ function Students() {
 
         <button
           className="add-student-btn"
-          onClick={() => setShowForm(true)}
+          onClick={handleAddStudent}
         >
           + Add Student
         </button>
@@ -82,7 +131,9 @@ function Students() {
 
       {showForm && (
         <form className="student-form" onSubmit={handleSubmit}>
-          <h2>Add New Student</h2>
+          <h2>
+            {editingStudentId ? "Edit Student" : "Add New Student"}
+          </h2>
 
           <input
             type="text"
@@ -154,13 +205,13 @@ function Students() {
 
           <div className="form-actions">
             <button type="submit" className="save-btn">
-              Save Student
+              {editingStudentId ? "Save Changes" : "Save Student"}
             </button>
 
             <button
               type="button"
               className="cancel-btn"
-              onClick={() => setShowForm(false)}
+              onClick={handleCancel}
             >
               Cancel
             </button>
@@ -178,6 +229,7 @@ function Students() {
               <th>CGPA</th>
               <th>Attendance</th>
               <th>Department</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -190,6 +242,22 @@ function Students() {
                 <td>{student.cgpa}</td>
                 <td>{student.attendance}%</td>
                 <td>{student.department?.name}</td>
+
+                <td>
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleEdit(student)}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(student.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
