@@ -5,9 +5,11 @@ import {
   updateStudent,
   deleteStudent,
 } from "../api/studentApi";
+import { getAllDepartments } from "../api/departmentApi";
 
 function Students() {
   const [students, setStudents] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingStudentId, setEditingStudentId] = useState(null);
 
@@ -33,8 +35,19 @@ function Students() {
       });
   };
 
+  const fetchDepartments = () => {
+    getAllDepartments()
+      .then((response) => {
+        setDepartments(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching departments:", error);
+      });
+  };
+
   useEffect(() => {
     fetchStudents();
+    fetchDepartments();
   }, []);
 
   const handleChange = (event) => {
@@ -191,6 +204,7 @@ function Students() {
             required
           />
 
+          {/* Dynamic Departments */}
           <select
             name="departmentId"
             value={studentData.departmentId}
@@ -198,9 +212,12 @@ function Students() {
             required
           >
             <option value="">Select Department</option>
-            <option value="1">Computer Science Engineering</option>
-            <option value="2">Information Technology</option>
-            <option value="3">Electronics Engineering</option>
+
+            {departments.map((department) => (
+              <option key={department.id} value={department.id}>
+                {department.name}
+              </option>
+            ))}
           </select>
 
           <div className="form-actions">
