@@ -624,3 +624,904 @@ button {
     padding: 22px;
   }
 }
+/* ================================
+   STUDENTS PAGE
+================================ */
+
+.students-page {
+  width: 100%;
+  max-width: 1400px;
+}
+
+.students-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+  margin-bottom: 32px;
+}
+
+.students-header h1 {
+  margin: 0 0 10px;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 600;
+  letter-spacing: -2px;
+}
+
+.students-header p {
+  max-width: 620px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.primary-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: none;
+  padding: 13px 20px;
+
+  background: var(--ink);
+  color: white;
+
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.primary-action-btn:hover {
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
+.primary-action-btn span {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+
+/* ================================
+   TOOLBAR
+================================ */
+
+.students-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: min(480px, 100%);
+}
+
+.search-box span {
+  font-size: 22px;
+  color: var(--muted);
+}
+
+.search-box input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: var(--ink);
+
+  font-size: 14px;
+}
+
+.search-box input::placeholder {
+  color: #a3a6aa;
+}
+
+.students-count {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.students-count strong {
+  color: var(--ink);
+  font-size: 20px;
+}
+
+
+/* ================================
+   STUDENT DIRECTORY
+================================ */
+
+.student-directory {
+  width: 100%;
+  border-top: 1px solid var(--border);
+}
+
+.directory-head,
+.student-row {
+  display: grid;
+  grid-template-columns:
+    minmax(230px, 1.6fr)
+    minmax(180px, 1fr)
+    minmax(150px, 1fr)
+    minmax(170px, 1fr)
+    auto;
+
+  align-items: center;
+  column-gap: 28px;
+}
+
+.directory-head {
+  padding: 14px 18px;
+
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.student-row {
+  min-height: 105px;
+  padding: 18px;
+
+  border-bottom: 1px solid var(--border);
+
+  transition: background 0.2s ease;
+}
+
+.student-row:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+
+/* ================================
+   STUDENT IDENTITY
+================================ */
+
+.student-identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.student-avatar {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--accent-soft);
+  color: var(--accent);
+
+  border-radius: 50%;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.student-identity strong {
+  display: block;
+  margin-bottom: 4px;
+
+  font-size: 14px;
+}
+
+.student-identity span {
+  display: block;
+
+  max-width: 220px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--muted);
+  font-size: 12px;
+}
+
+
+/* ================================
+   ACADEMIC PROFILE
+================================ */
+
+.academic-profile {
+  display: flex;
+  gap: 24px;
+}
+
+.academic-profile div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.academic-profile span {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  color: var(--muted);
+}
+
+.academic-profile strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* ================================
+   DEPARTMENT
+================================ */
+
+.department-name {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+
+/* ================================
+   ATTENDANCE
+================================ */
+
+.attendance-cell {
+  width: 100%;
+}
+
+.attendance-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 8px;
+}
+
+.attendance-top strong {
+  font-size: 13px;
+}
+
+.attendance-status {
+  padding: 3px 7px;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  border-radius: 20px;
+}
+
+.attendance-status.good {
+  background: #e7f3eb;
+  color: #2f6b45;
+}
+
+.attendance-status.low {
+  background: #f8e6e6;
+  color: var(--danger);
+}
+
+.mini-progress {
+  width: 100%;
+  height: 5px;
+
+  background: #e7e4de;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  background: var(--accent);
+}
+
+
+/* ================================
+   ACTIONS
+================================ */
+
+.student-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.student-actions button {
+  border: 1px solid var(--border);
+
+  padding: 7px 10px;
+
+  background: transparent;
+  color: var(--ink);
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  transition: 0.2s ease;
+}
+
+.action-edit:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.action-delete:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+
+/* ================================
+   EMPTY STATE
+================================ */
+
+.empty-students {
+  padding: 70px 20px;
+  text-align: center;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.empty-students strong {
+  font-size: 17px;
+}
+
+.empty-students p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+
+/* ================================
+   STUDENT FORM MODAL
+================================ */
+
+.student-form-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 100;
+
+  display: flex;
+  justify-content: flex-end;
+
+  background: rgba(23, 32, 51, 0.35);
+}
+
+.student-form-modal {
+  width: min(620px, 100%);
+  height: 100vh;
+
+  overflow-y: auto;
+
+  padding: 38px;
+
+  background: var(--background);
+
+  border-left: 1px solid var(--border);
+}
+
+.form-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  padding-bottom: 28px;
+  margin-bottom: 30px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.form-modal-header h2 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+
+.close-form-btn {
+  width: 38px;
+  height: 38px;
+
+  border: 1px solid var(--border);
+  background: transparent;
+
+  color: var(--ink);
+
+  cursor: pointer;
+
+  font-size: 24px;
+}
+
+.close-form-btn:hover {
+  background: white;
+}
+
+
+/* ================================
+   FORM SECTIONS
+================================ */
+
+.form-section {
+  margin-bottom: 32px;
+}
+
+.form-section-title {
+  margin: 0 0 18px;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+
+  color: var(--muted);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.form-grid.two-column {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field.full {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+
+  padding: 12px 13px;
+
+  border: 1px solid var(--border);
+  outline: none;
+
+  background: white;
+  color: var(--ink);
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  border-color: var(--accent);
+}
+
+
+/* ================================
+   FORM ACTIONS
+================================ */
+
+.form-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  padding-top: 24px;
+
+  border-top: 1px solid var(--border);
+}
+
+.secondary-action-btn {
+  padding: 13px 18px;
+
+  border: 1px solid var(--border);
+  background: transparent;
+
+  color: var(--ink);
+
+  cursor: pointer;
+}
+
+.secondary-action-btn:hover {
+  background: white;
+}
+
+
+/* ================================
+   RESPONSIVE STUDENTS
+================================ */
+
+@media (max-width: 1050px) {
+  .directory-head {
+    display: none;
+  }
+
+  .student-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    padding: 24px 18px;
+  }
+
+  .student-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 650px) {
+  .students-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .students-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .students-count {
+    justify-content: flex-end;
+  }
+
+  .student-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid.two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .student-form-modal {
+    padding: 28px 20px;
+  }
+}
+/* ================================
+   DEPARTMENTS PAGE
+================================ */
+
+.departments-page {
+  width: 100%;
+  max-width: 1400px;
+}
+
+.departments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+  margin-bottom: 32px;
+}
+
+.departments-header h1 {
+  margin: 0 0 10px;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 600;
+  letter-spacing: -2px;
+}
+
+.departments-header p {
+  max-width: 600px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+
+/* ================================
+   OVERVIEW
+================================ */
+
+.departments-overview {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  padding: 20px 0;
+  margin-bottom: 28px;
+
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.departments-overview div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.departments-overview strong {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.departments-overview span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.departments-overview p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+
+/* ================================
+   DEPARTMENT GRID
+================================ */
+
+.departments-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.department-card {
+  min-height: 260px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 24px;
+
+  border: 1px solid var(--border);
+  background: var(--surface);
+
+  transition: transform 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.department-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+
+/* ================================
+   CARD TOP
+================================ */
+
+.department-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.department-number {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.department-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.department-actions button {
+  border: none;
+  background: transparent;
+
+  padding: 5px 7px;
+
+  color: var(--muted);
+  font-size: 11px;
+
+  cursor: pointer;
+}
+
+.department-actions button:hover {
+  color: var(--accent);
+}
+
+.department-actions .department-delete-btn:hover {
+  color: var(--danger);
+}
+
+
+/* ================================
+   CARD CONTENT
+================================ */
+
+.department-card-content {
+  margin: 20px 0;
+}
+
+.department-card-content h2 {
+  max-width: 260px;
+
+  margin: 0 0 22px;
+
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.8px;
+}
+
+.department-student-count {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.department-student-count strong {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.department-student-count span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+
+/* ================================
+   CARD FOOTER
+================================ */
+
+.department-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-top: 18px;
+
+  border-top: 1px solid var(--border);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  color: var(--muted);
+}
+
+.department-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #5b8c68;
+}
+
+
+/* ================================
+   EMPTY STATE
+================================ */
+
+.empty-departments {
+  grid-column: 1 / -1;
+
+  padding: 80px 20px;
+
+  text-align: center;
+
+  border: 1px solid var(--border);
+}
+
+.empty-departments strong {
+  display: block;
+  margin-bottom: 8px;
+
+  font-size: 20px;
+}
+
+.empty-departments p {
+  margin: 0 0 22px;
+  color: var(--muted);
+}
+
+
+/* ================================
+   DEPARTMENT FORM
+================================ */
+
+.department-form-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 100;
+
+  display: flex;
+  justify-content: flex-end;
+
+  background: rgba(23, 32, 51, 0.35);
+}
+
+.department-form-modal {
+  width: min(520px, 100%);
+  height: 100vh;
+
+  padding: 38px;
+
+  overflow-y: auto;
+
+  background: var(--background);
+
+  border-left: 1px solid var(--border);
+}
+
+.department-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+
+  margin-bottom: 35px;
+}
+
+.department-form-field label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.department-form-field input {
+  width: 100%;
+
+  padding: 13px;
+
+  border: 1px solid var(--border);
+  outline: none;
+
+  background: white;
+  color: var(--ink);
+
+  font-size: 14px;
+}
+
+.department-form-field input:focus {
+  border-color: var(--accent);
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1100px) {
+  .departments-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .departments-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .departments-overview {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .departments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .department-form-modal {
+    padding: 28px 20px;
+  }
+}

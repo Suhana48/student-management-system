@@ -5,12 +5,13 @@ import {
   updateDepartment,
   deleteDepartment,
 } from "../api/departmentApi";
+import { getAllStudents } from "../api/studentApi";
 
 function Departments() {
   const [departments, setDepartments] = useState([]);
+  const [students, setStudents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingDepartmentId, setEditingDepartmentId] = useState(null);
-
   const [departmentName, setDepartmentName] = useState("");
 
   const fetchDepartments = () => {
@@ -23,8 +24,19 @@ function Departments() {
       });
   };
 
+  const fetchStudents = () => {
+    getAllStudents()
+      .then((response) => {
+        setStudents(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching students:", error);
+      });
+  };
+
   useEffect(() => {
     fetchDepartments();
+    fetchStudents();
   }, []);
 
   const handleAddDepartment = () => {
@@ -74,6 +86,7 @@ function Departments() {
     deleteDepartment(id)
       .then(() => {
         fetchDepartments();
+        fetchStudents();
       })
       .catch((error) => {
         console.error("Error deleting department:", error);
@@ -86,90 +99,196 @@ function Departments() {
     setShowForm(false);
   };
 
+  const getStudentCount = (departmentId) => {
+    return students.filter(
+      (student) => student.department?.id === departmentId
+    ).length;
+  };
+
   return (
-    <main className="dashboard">
-      <div className="page-header">
+    <main className="departments-page">
+      {/* Header */}
+
+      <div className="departments-header">
         <div>
+          <span className="section-label">ACADEMIC STRUCTURE</span>
+
           <h1>Departments</h1>
-          <p>View and manage all departments.</p>
+
+          <p>
+            Organize and manage the academic departments in your
+            institution.
+          </p>
         </div>
 
         <button
-          className="add-student-btn"
+          className="primary-action-btn"
           onClick={handleAddDepartment}
         >
-          + Add Department
+          <span>+</span> Add Department
         </button>
       </div>
 
-      {showForm && (
-        <form className="student-form" onSubmit={handleSubmit}>
-          <h2>
-            {editingDepartmentId
-              ? "Edit Department"
-              : "Add New Department"}
-          </h2>
+      {/* Overview */}
 
-          <input
-            type="text"
-            placeholder="Enter department name"
-            value={departmentName}
-            onChange={(event) => setDepartmentName(event.target.value)}
-            required
-          />
+      <div className="departments-overview">
+        <div>
+          <strong>{departments.length}</strong>
+          <span>
+            {departments.length === 1
+              ? "Department"
+              : "Departments"}
+          </span>
+        </div>
 
-          <div className="form-actions">
-            <button type="submit" className="save-btn">
-              {editingDepartmentId ? "Save Changes" : "Save Department"}
-            </button>
+        <p>
+          {students.length} students distributed across your
+          academic departments.
+        </p>
+      </div>
+
+      {/* Department Grid */}
+
+      <div className="departments-grid">
+        {departments.length === 0 ? (
+          <div className="empty-departments">
+            <strong>No departments yet</strong>
+
+            <p>
+              Create your first department to start organizing
+              students.
+            </p>
 
             <button
-              type="button"
-              className="cancel-btn"
-              onClick={handleCancel}
+              className="primary-action-btn"
+              onClick={handleAddDepartment}
             >
-              Cancel
+              <span>+</span> Add Department
             </button>
           </div>
-        </form>
-      )}
+        ) : (
+          departments.map((department, index) => {
+            const studentCount = getStudentCount(department.id);
 
-      <div className="table-container">
-        <table className="students-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Department Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+            return (
+              <div
+                className="department-card"
+                key={department.id}
+              >
+                <div className="department-card-top">
+                  <span className="department-number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
 
-          <tbody>
-            {departments.map((department) => (
-              <tr key={department.id}>
-                <td>{department.id}</td>
-                <td>{department.name}</td>
+                  <div className="department-actions">
+                    <button
+                      onClick={() => handleEdit(department)}
+                    >
+                      Edit
+                    </button>
 
-                <td>
-                  <button
-                    className="edit-btn"
-                    onClick={() => handleEdit(department)}
-                  >
-                    Edit
-                  </button>
+                    <button
+                      className="department-delete-btn"
+                      onClick={() =>
+                        handleDelete(department.id)
+                      }
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
 
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(department.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                <div className="department-card-content">
+                  <h2>{department.name}</h2>
+
+                  <div className="department-student-count">
+                    <strong>{studentCount}</strong>
+
+                    <span>
+                      {studentCount === 1
+                        ? "student"
+                        : "students"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="department-card-footer">
+                  <span>ACTIVE DEPARTMENT</span>
+
+                  <span className="department-dot"></span>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
+
+      {/* Add / Edit Modal */}
+
+      {showForm && (
+        <div className="department-form-overlay">
+          <div className="department-form-modal">
+            <div className="form-modal-header">
+              <div>
+                <span className="section-label">
+                  {editingDepartmentId
+                    ? "UPDATE DEPARTMENT"
+                    : "NEW DEPARTMENT"}
+                </span>
+
+                <h2>
+                  {editingDepartmentId
+                    ? "Edit department"
+                    : "Add a department"}
+                </h2>
+              </div>
+
+              <button
+                className="close-form-btn"
+                onClick={handleCancel}
+              >
+                ×
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+              <div className="department-form-field">
+                <label>Department Name</label>
+
+                <input
+                  type="text"
+                  placeholder="e.g. Computer Science"
+                  value={departmentName}
+                  onChange={(event) =>
+                    setDepartmentName(event.target.value)
+                  }
+                  required
+                  autoFocus
+                />
+              </div>
+
+              <div className="form-modal-actions">
+                <button
+                  type="button"
+                  className="secondary-action-btn"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className="primary-action-btn"
+                >
+                  {editingDepartmentId
+                    ? "Save Changes"
+                    : "Add Department"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

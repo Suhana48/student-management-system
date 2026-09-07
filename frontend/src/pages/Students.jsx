@@ -12,6 +12,7 @@ function Students() {
   const [departments, setDepartments] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingStudentId, setEditingStudentId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const initialStudentData = {
     name: "",
@@ -126,160 +127,354 @@ function Students() {
     setStudentData(initialStudentData);
   };
 
+  const filteredStudents = students.filter((student) => {
+    const searchValue = searchTerm.toLowerCase();
+
+    return (
+      student.name.toLowerCase().includes(searchValue) ||
+      student.email.toLowerCase().includes(searchValue) ||
+      student.department?.name
+        ?.toLowerCase()
+        .includes(searchValue)
+    );
+  });
+
+  const getInitials = (name) => {
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+  };
+
   return (
-    <main className="dashboard">
-      <div className="page-header">
+    <main className="students-page">
+      {/* Header */}
+
+      <div className="students-header">
         <div>
+          <span className="section-label">STUDENT DIRECTORY</span>
+
           <h1>Students</h1>
-          <p>View and manage all students.</p>
+
+          <p>
+            Manage student records, academic performance, and
+            department information.
+          </p>
         </div>
 
         <button
-          className="add-student-btn"
+          className="primary-action-btn"
           onClick={handleAddStudent}
         >
-          + Add Student
+          <span>+</span> Add Student
         </button>
       </div>
 
-      {showForm && (
-        <form className="student-form" onSubmit={handleSubmit}>
-          <h2>
-            {editingStudentId ? "Edit Student" : "Add New Student"}
-          </h2>
+      {/* Toolbar */}
+
+      <div className="students-toolbar">
+        <div className="search-box">
+          <span>⌕</span>
 
           <input
             type="text"
-            name="name"
-            placeholder="Enter name"
-            value={studentData.name}
-            onChange={handleChange}
-            required
+            placeholder="Search by name, email or department..."
+            value={searchTerm}
+            onChange={(event) =>
+              setSearchTerm(event.target.value)
+            }
           />
+        </div>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter email"
-            value={studentData.email}
-            onChange={handleChange}
-            required
-          />
-
-          <input
-            type="text"
-            name="phone"
-            placeholder="Enter phone number"
-            value={studentData.phone}
-            onChange={handleChange}
-            required
-          />
-
-          <input
-            type="number"
-            name="year"
-            placeholder="Enter year"
-            value={studentData.year}
-            onChange={handleChange}
-            required
-          />
-
-          <input
-            type="number"
-            step="0.1"
-            name="cgpa"
-            placeholder="Enter CGPA"
-            value={studentData.cgpa}
-            onChange={handleChange}
-            required
-          />
-
-          <input
-            type="number"
-            step="0.1"
-            name="attendance"
-            placeholder="Enter attendance"
-            value={studentData.attendance}
-            onChange={handleChange}
-            required
-          />
-
-          {/* Dynamic Departments */}
-          <select
-            name="departmentId"
-            value={studentData.departmentId}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Department</option>
-
-            {departments.map((department) => (
-              <option key={department.id} value={department.id}>
-                {department.name}
-              </option>
-            ))}
-          </select>
-
-          <div className="form-actions">
-            <button type="submit" className="save-btn">
-              {editingStudentId ? "Save Changes" : "Save Student"}
-            </button>
-
-            <button
-              type="button"
-              className="cancel-btn"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      )}
-
-      <div className="table-container">
-        <table className="students-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Year</th>
-              <th>CGPA</th>
-              <th>Attendance</th>
-              <th>Department</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {students.map((student) => (
-              <tr key={student.id}>
-                <td>{student.name}</td>
-                <td>{student.email}</td>
-                <td>{student.year}</td>
-                <td>{student.cgpa}</td>
-                <td>{student.attendance}%</td>
-                <td>{student.department?.name}</td>
-
-                <td>
-                  <button
-                    className="edit-btn"
-                    onClick={() => handleEdit(student)}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(student.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="students-count">
+          <strong>{filteredStudents.length}</strong>
+          <span>
+            {filteredStudents.length === 1
+              ? "student"
+              : "students"}
+          </span>
+        </div>
       </div>
+
+      {/* Student Directory */}
+
+      <div className="student-directory">
+        <div className="directory-head">
+          <span>STUDENT</span>
+          <span>ACADEMIC PROFILE</span>
+          <span>DEPARTMENT</span>
+          <span>ATTENDANCE</span>
+          <span></span>
+        </div>
+
+        {filteredStudents.length === 0 ? (
+          <div className="empty-students">
+            <strong>No students found</strong>
+            <p>Try changing your search.</p>
+          </div>
+        ) : (
+          filteredStudents.map((student) => (
+            <div className="student-row" key={student.id}>
+              {/* Student */}
+
+              <div className="student-identity">
+                <div className="student-avatar">
+                  {getInitials(student.name)}
+                </div>
+
+                <div>
+                  <strong>{student.name}</strong>
+                  <span>{student.email}</span>
+                </div>
+              </div>
+
+              {/* Academic */}
+
+              <div className="academic-profile">
+                <div>
+                  <span>YEAR</span>
+                  <strong>{student.year}</strong>
+                </div>
+
+                <div>
+                  <span>CGPA</span>
+                  <strong>{student.cgpa}</strong>
+                </div>
+              </div>
+
+              {/* Department */}
+
+              <div className="department-name">
+                {student.department?.name || "Not assigned"}
+              </div>
+
+              {/* Attendance */}
+
+              <div className="attendance-cell">
+                <div className="attendance-top">
+                  <strong>{student.attendance}%</strong>
+
+                  <span
+                    className={
+                      Number(student.attendance) < 75
+                        ? "attendance-status low"
+                        : "attendance-status good"
+                    }
+                  >
+                    {Number(student.attendance) < 75
+                      ? "Low"
+                      : "Good"}
+                  </span>
+                </div>
+
+                <div className="mini-progress">
+                  <div
+                    className="mini-progress-fill"
+                    style={{
+                      width: `${student.attendance}%`,
+                    }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* Actions */}
+
+              <div className="student-actions">
+                <button
+                  className="action-edit"
+                  onClick={() => handleEdit(student)}
+                >
+                  Edit
+                </button>
+
+                <button
+                  className="action-delete"
+                  onClick={() => handleDelete(student.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Form — keeping functionality for now */}
+
+      {showForm && (
+        <div className="student-form-overlay">
+          <div className="student-form-modal">
+            <div className="form-modal-header">
+              <div>
+                <span className="section-label">
+                  {editingStudentId
+                    ? "UPDATE RECORD"
+                    : "NEW STUDENT"}
+                </span>
+
+                <h2>
+                  {editingStudentId
+                    ? "Edit student"
+                    : "Add a student"}
+                </h2>
+              </div>
+
+              <button
+                className="close-form-btn"
+                onClick={handleCancel}
+              >
+                ×
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+              <div className="form-section">
+                <p className="form-section-title">
+                  PERSONAL INFORMATION
+                </p>
+
+                <div className="form-grid">
+                  <div className="form-field full">
+                    <label>Name</label>
+
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Enter student's name"
+                      value={studentData.name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-field full">
+                    <label>Email</label>
+
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="student@example.com"
+                      value={studentData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-field full">
+                    <label>Phone</label>
+
+                    <input
+                      type="text"
+                      name="phone"
+                      placeholder="Enter phone number"
+                      value={studentData.phone}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <p className="form-section-title">
+                  ACADEMIC INFORMATION
+                </p>
+
+                <div className="form-grid two-column">
+                  <div className="form-field">
+                    <label>Year</label>
+
+                    <input
+                      type="number"
+                      name="year"
+                      min="1"
+                      max="4"
+                      value={studentData.year}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label>CGPA</label>
+
+                    <input
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="10"
+                      name="cgpa"
+                      value={studentData.cgpa}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label>Attendance (%)</label>
+
+                    <input
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      name="attendance"
+                      value={studentData.attendance}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label>Department</label>
+
+                    <select
+                      name="departmentId"
+                      value={studentData.departmentId}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">
+                        Select Department
+                      </option>
+
+                      {departments.map((department) => (
+                        <option
+                          key={department.id}
+                          value={department.id}
+                        >
+                          {department.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-modal-actions">
+                <button
+                  type="button"
+                  className="secondary-action-btn"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className="primary-action-btn"
+                >
+                  {editingStudentId
+                    ? "Save Changes"
+                    : "Add Student"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
