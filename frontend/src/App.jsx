@@ -9,12 +9,17 @@ function App() {
   const [currentPage, setCurrentPage] = useState("dashboard");
 
   return (
-    <div>
-      <Navbar setCurrentPage={setCurrentPage} />
+    <div className="app-layout">
+      <Navbar
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
 
-      {currentPage === "dashboard" && <Dashboard />}
-      {currentPage === "students" && <Students />}
-      {currentPage === "departments" && <Departments />}
+      <main className="main-content">
+        {currentPage === "dashboard" && <Dashboard />}
+        {currentPage === "students" && <Students />}
+        {currentPage === "departments" && <Departments />}
+      </main>
     </div>
   );
 }
