@@ -22,4 +22,21 @@ public class DepartmentService {
     public Department addDepartment(Department department) {
         return departmentRepository.save(department);
     }
+
+    public Department updateDepartment(Long id, Department departmentDetails) {
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found"));
+
+        department.setName(departmentDetails.getName());
+
+        return departmentRepository.save(department);
+    }
+
+    public void deleteDepartment(Long id) {
+        if (!departmentRepository.existsById(id)) {
+            throw new RuntimeException("Department not found");
+        }
+
+        departmentRepository.deleteById(id);
+    }
 }
