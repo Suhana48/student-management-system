@@ -5,7 +5,11 @@ import com.suhana.studentmanagementsystem.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:5173")
+
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://student-management-frontend-orpu.onrender.com"
+})
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {

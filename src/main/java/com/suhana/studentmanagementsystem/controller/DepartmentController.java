@@ -8,7 +8,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/departments")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://student-management-frontend-orpu.onrender.com"
+})
 public class DepartmentController {
 
     private final DepartmentService departmentService;
